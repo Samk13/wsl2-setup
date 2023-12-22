@@ -1,5 +1,38 @@
 #!/bin/bash
 
+# Path to .bashrc
+bashrc_path="$HOME/.bashrc"
+
+# Function to replace a line in .bashrc
+# TODO test this and replace default PS1 with:
+# if [ "$color_prompt" = yes ]; then
+#     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \n€€€ '
+# else
+#     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\ \n€€€ '
+# fi
+replace_line() {
+    local search=$1
+    local replace=$2
+    local file=$3
+    # Check if the line exists in the file
+    if grep -q "$search" "$file"; then
+        # Replace the line
+        sed -i "s/$search/$replace/" "$file"
+    else
+        # If the line doesn't exist, append it
+        echo "$replace" >> "$file"
+    fi
+}
+
+
+# Replace or add PS1 line
+ps1_search="if \[ \"\$color_prompt\" = yes \]; then"
+ps1_replace="if [ \"\$color_prompt\" = yes ]; then\n
+PS1='\${debian_chroot:+(\$debian_chroot)}\\[\\033[01;32m\\]\\u@\\h\\[\\033[00m\\]:\\[\\033[01;34m\\]\\w\\[\\033[00m\\] \\n€€€ '\nelse\n    PS1='\${debian_chroot:+(\$debian_chroot)}\\u@\\h:\\w\\ \\n€€€ '\nfi"
+replace_line "$ps1_search" "$ps1_replace" "$bashrc_path"
+
+echo "Updated .bashrc with new PS1 and color prompt settings."
+
 # Function to check and install a command if it doesn't exist
 check_install() {
     local command=$1
@@ -49,5 +82,31 @@ check_install fzf "$fzf_install_script"
 # Create dev directory and subdirectories if they don't exist
 mkdir -p ~/dev/invenio-dev
 mkdir -p ~/dev/test-dev
+
+# Function to create SSH key
+# Function to create SSH key
+create_ssh_key() {
+    # Define the SSH key file path
+    local ssh_key_path="$HOME/.ssh/id_rsa"
+
+    # Check if the SSH key already exists
+    if [ -f "$ssh_key_path" ]; then
+        echo "SSH key already exists at $ssh_key_path."
+    else
+        echo "Creating a new SSH key..."
+        # Create SSH key without passphrase
+        ssh-keygen -t rsa -b 4096 -f "$ssh_key_path" -N ""
+        echo "SSH key created at $ssh_key_path."
+    fi
+}
+
+# Ask user if they want to create an SSH key
+read -p "Do you want to create a new SSH key? (y/n): " answer
+
+case $answer in
+    [Yy]* ) create_ssh_key;;
+    [Nn]* ) echo "Skipping SSH key creation.";;
+    * ) echo "Please answer yes or no.";;
+esac
 
 echo "Setup completed successfully."
