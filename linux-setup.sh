@@ -10,6 +10,7 @@ bashrc_path="$HOME/.bashrc"
 # else
 #     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\ \n€€€ '
 # fi
+
 replace_line() {
     local search=$1
     local replace=$2
@@ -24,6 +25,9 @@ replace_line() {
     fi
 }
 
+
+# take a backup for .bashrc before any modifications
+cp $HOME/.bashrc $HOME/.bashrc.backup
 
 # Replace or add PS1 line
 ps1_search="if \[ \"\$color_prompt\" = yes \]; then"
