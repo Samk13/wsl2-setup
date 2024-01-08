@@ -26,7 +26,7 @@ replace_line() {
 }
 
 
-# take a backup for .bashrc before any modifications
+# Take a backup for .bashrc before any modifications
 cp $HOME/.bashrc $HOME/.bashrc.backup
 
 # Replace or add PS1 line
