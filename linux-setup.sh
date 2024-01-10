@@ -53,7 +53,7 @@ check_install() {
 # Updating and upgrading packages with auto-agree
 sudo apt update && sudo apt upgrade -y
 
-# Install dependencies and pyenv
+# Install dependencies
 pyenv_install_script="\
     sudo apt-get update; sudo apt-get install --no-install-recommends -y \
     make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev \
@@ -66,6 +66,7 @@ pyenv_install_script="\
     echo 'command -v pyenv >/dev/null || export PATH=\"\$PYENV_ROOT/bin:\$PATH\"' >> ~/.bashrc; \
     echo 'eval \"\$(pyenv init -)\"' >> ~/.bashrc"
 check_install pyenv "$pyenv_install_script"
+
 
 # Install NVM and set Node version
 nvm_install_script="\
@@ -87,7 +88,6 @@ check_install fzf "$fzf_install_script"
 mkdir -p ~/dev/invenio-dev
 mkdir -p ~/dev/test-dev
 
-# Function to create SSH key
 # Function to create SSH key
 create_ssh_key() {
     # Define the SSH key file path
