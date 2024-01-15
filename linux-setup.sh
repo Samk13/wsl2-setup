@@ -65,6 +65,7 @@ pyenv_install_script="\
     echo 'export PYENV_ROOT=\"\$HOME/.pyenv\"' >> ~/.bashrc; \
     echo 'command -v pyenv >/dev/null || export PATH=\"\$PYENV_ROOT/bin:\$PATH\"' >> ~/.bashrc; \
     echo 'eval \"\$(pyenv init -)\"' >> ~/.bashrc"
+
 check_install pyenv "$pyenv_install_script"
 
 
@@ -74,6 +75,7 @@ nvm_install_script="\
     source ~/.bashrc; \
     nvm install node; \
     nvm use node"
+
 check_install nvm "$nvm_install_script"
 
 # Install fzf
@@ -81,6 +83,7 @@ fzf_install_script="\
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf; \
     ~/.fzf/install --all; \
     echo '[ -f ~/.fzf.bash ] && source ~/.fzf.bash' >> ~/.bashrc"
+
 check_install fzf "$fzf_install_script"
 
 
